@@ -13,25 +13,30 @@
 	}
 	this.checkColliders = function(cardContainer,top,left,width,height)
 	{
-		var right = left + width,down = top + height,index = 0,res;
-		while(index < size){res = verifyCollition(top,left,right,down,child[index]);if(res) break;index++;}
+		var right = left + width,down = top + height,index = 0,res,x;
+		while(index < size){
+			x = child[index];
+			res = verifyCollition(top,left,right,down,x);
+			if(res) break;index++;
+		}
 		if(index == size) return null;
-		res = child[index];
-		res.add(cardContainer,res);
-		return child[index];
+		x.add(cardContainer,x);
+		return x;
 	}
 	this.create = function(top,left,width,height,arrange,expand)
 	{
-		var res = {};
+		var res = {},fn = 'var card = arguments[0],res = arguments[1];card.top = res.top;card.left = res.left;';
+		res.size = 0;
+		res.baseIndex = 0;
 		res.top = top;
 		res.left = left;
 		res.down = top + height;
 		res.right = width + left;
-		var fn = 'var card = arguments[0],res = arguments[1];card.top = res.top;card.left = res.left;console.log("prueba cocodrilo");';
 		switch(arrange)
 		{
 			case 'left':
-				fn += 'res.left -= '+expand;
+				res.baseIndex = 100;
+				fn += 'card.style.left = res.left;card.style.top = res.top;card.style.zIndex = res.baseIndex;res.left -= '+expand;
 				break;
 			case 'down':
 				fn += 'res.down += '+expand;
@@ -47,8 +52,9 @@
 			default:
 				break;
 		}
+		fn += ';res.baseIndex--;';
 		res.add = new Function(fn);
-		child[size] = res;
+		child.push(res);
 		size++;
 	}
 }
