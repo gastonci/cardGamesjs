@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<!-- saved from url=(0036)http://tobyj.net/responsive-sprites/ -->
+<html>
+	<head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+		<title>Stretchy Sprites: Cross-browser responsive sprite images</title>
+		<style type="text/css">
+			.stretchy {display:block; float:left; position:relative; overflow:hidden; max-width:160px;}
+			.stretchy .spacer {width: 100%; height: auto;}
+			.stretchy .sprite {position:absolute; top:0; left:0; max-width:none; max-height:100%;}
+			.stretchy .sprite.s2 {left:-100%;}
+			.stretchy .sprite.s3 {left:-200%;}
+			.stretchy .sprite.s4 {left:-300%;}
+			.stretchy .sprite.s5 {left:-400%;}
+			.stretchy .sprite.s6 {left:-500%;}
+
+			.stretchy.no-limit {max-width: none;} /*you could also set this to a pixel size, for example 320px, to limit the maximum*/
+			.stretchy.no-limit .sprite {min-height: 100%;}
+
+			a img {border:0; padding: 0; margin: 0 ; display: block}
+			.stretchy {float: left; clear: both; width: 100%; margin: 10px 0;}
+			.stretchy {width:35%; margin-right:5%;}
+		</style>
+		<style type="text/css"></style>
+	</head>
+	<body>
+		<div class="stretchy">
+			<img class="spacer" src="spacer.png">
+			<img class="sprite" src="sprite_800x160.jpg">
+		</div>
+
+		<div class="stretchy no-limit">
+			<img class="spacer" src="spacer.png">
+			<img class="sprite s2" src="sprite_800x160.jpg">
+		</div>
+
+		<div class="stretchy">
+			<img class="spacer" src="spacer.png">
+			<img class="sprite s3" src="sprite_800x160.jpg">
+		</div>
+
+		<div class="stretchy">
+			<img class="spacer" src="spacer.png">
+			<img class="sprite s4" src="sprite_800x160.jpg">
+		</div>
+
+		<div class="stretchy">
+			<img class="spacer" src="spacer.png">
+			<img class="sprite s5" src="sprite_800x160.jpg">
+		</div>
+
+		<div class="stretchy no-limit">
+			<img class="spacer" src="spacer.png">
+			<img class="sprite s6" src="sprite_800x160.jpg">
+		</div>
+	</body>
+</html>

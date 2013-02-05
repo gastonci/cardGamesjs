@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<!-- saved from url=(0036)http://tobyj.net/responsive-sprites/ -->
+<html>
+	<head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+		<title>Stretchy Sprites: Cross-browser responsive sprite images</title>
+		<style type="text/css">
+			.stretchy {display:block; float:left; position:relative; overflow:hidden; max-width:160px;}
+			.stretchy .spacer {width: 100%; height: auto;}
+			.stretchy .sprite {position:absolute; top:0; left:0; max-width:none; max-height:100%;}
+			.stretchy .sprite.s2 {left:-100%;}
+			.stretchy .sprite.s3 {left:-200%;}
+			.stretchy .sprite.s4 {left:-300%;}
+			.stretchy .sprite.s5 {left:-400%;}
+			.stretchy .sprite.s6 {left:-500%;}
+
+			.stretchy.no-limit {max-width: none;} /*you could also set this to a pixel size, for example 320px, to limit the maximum*/
+			.stretchy.no-limit .sprite {min-height: 100%;}
+
+			a img {border:0; padding: 0; margin: 0 ; display: block}
+			.box {float: left; clear: both; width: 100%; margin: 10px 0; background: #eee;}
+			.stretchy {width:35%; margin-right:5%;}
+		</style>
+		<style type="text/css"></style>
+	</head>
+	<body>
+		<div class="box">
+			<a class="stretchy" href="http://tobyj.net/responsive-sprites/#">
+				<img class="spacer" alt="icon" src="./Stretchy Sprites  Cross-browser responsive sprite images_files/spacer.png">
+				<img class="sprite" alt="" src="./Stretchy Sprites  Cross-browser responsive sprite images_files/sprite_800x160.jpg">
+			</a>
+			<div>
+				<p>Example Sprite 1<br><code><span>.sprite</span>{<span>left:0;</span>}</code></p>
+			</div>
+		</div>
+
+		<div class="box">
+			<a class="stretchy no-limit" href="http://tobyj.net/responsive-sprites/#">
+				<img class="spacer" alt="icon" src="./Stretchy Sprites  Cross-browser responsive sprite images_files/spacer.png">
+				<img class="sprite s2" alt="" src="./Stretchy Sprites  Cross-browser responsive sprite images_files/sprite_800x160.jpg">
+			</a>
+			<div>
+				<p>Example Sprite 2<br><code><span>.sprite.s2</span>{<span>left:-100%;</span>}</code>
+				<br><br><code>.no-limit</code> class allows stretching over natural size</p>
+			</div>
+		</div>
+
+		<div class="box">
+			<a class="stretchy" href="http://tobyj.net/responsive-sprites/#">
+				<img class="spacer" alt="icon" src="./Stretchy Sprites  Cross-browser responsive sprite images_files/spacer.png">
+				<img class="sprite s3" alt="" src="./Stretchy Sprites  Cross-browser responsive sprite images_files/sprite_800x160.jpg">
+			</a>
+			<div>
+				<p>Example Sprite 3<br><code><span>.sprite.s3</span>{<span>left:-200%;</span>}</code></p>
+			</div>
+		</div>
+
+		<div class="box">
+			<a class="stretchy" href="http://tobyj.net/responsive-sprites/#">
+				<img class="spacer" alt="icon" src="./Stretchy Sprites  Cross-browser responsive sprite images_files/spacer.png">
+				<img class="sprite s4" alt="" src="./Stretchy Sprites  Cross-browser responsive sprite images_files/sprite_800x160.jpg">
+			</a>
+			<div>
+				<p>Example Sprite 4<br><code><span>.sprite.s4</span>{<span>left:-300%;</span>}</code></p>
+			</div>
+		</div>
+
+		<div class="box">
+			<a class="stretchy" href="http://tobyj.net/responsive-sprites/#">
+				<img class="spacer" alt="icon" src="./Stretchy Sprites  Cross-browser responsive sprite images_files/spacer.png">
+				<img class="sprite s5" alt="" src="./Stretchy Sprites  Cross-browser responsive sprite images_files/sprite_800x160.jpg">
+			</a>
+			<div>
+				<p>Example Sprite 5<br><code><span>.sprite.s5</span>{<span>left:-400%;</span>}</code></p>
+			</div>
+		</div>
+
+		<div class="box">
+			<a class="stretchy no-limit" href="http://tobyj.net/responsive-sprites/#">
+				<img class="spacer" alt="icon" src="./Stretchy Sprites  Cross-browser responsive sprite images_files/spacer.png">
+				<img class="sprite s6" alt="" src="./Stretchy Sprites  Cross-browser responsive sprite images_files/sprite_800x160.jpg">
+			</a>
+			<div>
+				<p>Example Sprite 6<br><code><span>.sprite.s6</span>{<span>left:-500%;</span>}</code>
+				<br><br><code>.no-limit</code> class allows stretching over natural size</p>
+			</div>
+		</div>
+	</body>
+</html>
