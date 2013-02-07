@@ -13,47 +13,51 @@
 	}
 	this.checkColliders = function(cardContainer,top,left,width,height)
 	{
-		var right = left + width,down = top + height,index = 0,res,x;
+		var right = left + width,down = top + height,index = 0,res,x;//verify if it's already on a child
 		while(index < size){
 			x = child[index];
 			res = verifyCollition(top,left,right,down,x);
-			if(res) break;index++;
+			if(res) break;
+			index++;
 		}
-		if(index == size) return null;
-		x.add(cardContainer,x);
+		res = x.child.indexOf(cardContainer);
+		if(res != -1){
+			x = x.childXY[res];
+			cardContainer.style.left = x.left;
+			cardContainer.style.top = x.top;
+			return false;
+		}
+		if(index == size){
+			return false;
+		}
+		x.add(cardContainer);
 		return x;
 	}
-	this.create = function(top,left,width,height,arrange,expand)
+	this.create = function(top,left,width,height,from,to,expand,arrange)
 	{
-		var res = {},fn = 'var card = arguments[0],res = arguments[1];card.top = res.top;card.left = res.left;';
+		var res = {},addFn = 'var card = arguments[0];card.top = this.top;card.left = this.left;this.child.push(card);',
+		subtractFn = '';
 		res.size = 0;
 		res.baseIndex = 0;
 		res.top = top;
 		res.left = left;
 		res.down = top + height;
 		res.right = width + left;
-		switch(arrange)
-		{
+		res.child = [];
+		res.childXY = [];
+		switch(from){
 			case 'left':
-				res.baseIndex = 100;
-				fn += 'card.style.left = res.left;card.style.top = res.top;card.style.zIndex = res.baseIndex;res.left -= '+expand;
-				break;
-			case 'down':
-				fn += 'res.down += '+expand;
-				break;
-			case 'right':
-				fn += 'res.right += '+expand;
-				break;
-			case 'up':
-				fn += 'res.top -= '+expand;
-				break;
-			case 'center':
-				break;
-			default:
+				addFn += 'card.style.left = this.left;this.childXY.push({left:this.left,top:this.top});card.style.top = this.top;'
 				break;
 		}
-		fn += ';res.baseIndex--;';
-		res.add = new Function(fn);
+		switch(to){
+			case 'left':
+				res.baseIndex = 100;
+				res.toLimit = res.left;
+				addFn += 'card.style.zIndex = this.baseIndex;if(this.toLimit < this.left){this.left -= '+expand+';}this.baseIndex--;';
+				break;
+		}
+		res.add = new Function(addFn);
 		child.push(res);
 		size++;
 	}
