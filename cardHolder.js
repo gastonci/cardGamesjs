@@ -54,8 +54,11 @@
 			case 'left':
 				res.baseIndex = 100;
 				res.toLimit = res.left;
-				addFn += 'card.style.zIndex = this.baseIndex;if(this.toLimit < this.left){this.left -= '+expand+';}this.baseIndex--;';
+				addFn += 'card.style.zIndex = this.baseIndex;this.left -= '+expand+';this.baseIndex--;';
 				break;
+			case 'right':
+				res.toLimit = res.right;
+				addFn += 'card.style.zIndex = this.baseIndex;this.left += '+expand+';this.baseIndex++;';
 		}
 		res.add = new Function(addFn);
 		child.push(res);
