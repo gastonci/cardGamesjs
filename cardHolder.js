@@ -47,18 +47,22 @@
 		res.childXY = [];
 		switch(from){
 			case 'left':
-				addFn += 'card.style.left = this.left;this.childXY.push({left:this.left,top:this.top});card.style.top = this.top;'
+				res.from = res.left;
+				addFn += 'card.style.left = this.from;this.childXY.push({left:this.left,top:this.top,index:this.baseIndex});card.style.top = this.top;';
+				break;
+			case 'right':
+				res.from = null;
+				addFn += 'this.from = this.from?this.from:(this.right - parseInt(card.style.width));card.style.left = this.from;this.childXY.push({left:this.from,top:this.top,index:this.baseIndex});card.style.top = this.top;';
 				break;
 		}
 		switch(to){
 			case 'left':
 				res.baseIndex = 100;
-				res.toLimit = res.left;
-				addFn += 'card.style.zIndex = this.baseIndex;this.left -= '+expand+';this.baseIndex--;';
+				addFn += 'card.style.zIndex = this.baseIndex;this.from -= '+expand+';this.left -= '+expand+';this.baseIndex--;';
 				break;
 			case 'right':
-				res.toLimit = res.right;
-				addFn += 'card.style.zIndex = this.baseIndex;this.left += '+expand+';this.baseIndex++;';
+				addFn += 'card.style.zIndex = this.baseIndex;this.from += '+expand+';this.left += '+expand+';this.baseIndex++;';
+				break;
 		}
 		res.add = new Function(addFn);
 		child.push(res);
