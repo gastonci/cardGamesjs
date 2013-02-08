@@ -14,16 +14,18 @@
 			pile.shuffle();
 			pile.sort();
 			var holder = new cardHolders();
-			holder.create(500,250,250,77,'right','right',25)
+			//holder.create(250,400,50,385,'right','right',25);
+			holder.create(500,250,250,77,'right','left',40);
 			InitDragDrop(holder);
 			function doIt()
 			{
-				var card = new cardContainer(pile.drawFromBottom(),50);
+				new cardContainer(pile.drawFromBottom(),50);
 			}
 		</SCRIPT>
 	</HEAD>
 	<BODY>
 		<input type="button" value="generate card" onclick="doIt()"/><br>
+		<!--<div style="background-color:#6495ed; position:absolute; top:250px; left:400px; height:385px; width:50px;"/>-->
 		<div style="background-color:#6495ed; position:absolute; top:500px; left:250px; height:77px; width:250px;"/>
 	</BODY>
 </HTML>

@@ -35,7 +35,7 @@
 	}
 	this.create = function(top,left,width,height,from,to,expand,arrange)
 	{
-		var res = {},addFn = 'var card = arguments[0];card.top = this.top;card.left = this.left;this.child.push(card);',
+		var res = {},addFn = 'var card = arguments[0];this.child.push(card);',
 		subtractFn = '';
 		res.size = 0;
 		res.baseIndex = 0;
@@ -48,7 +48,7 @@
 		switch(from){
 			case 'left':
 				res.from = res.left;
-				addFn += 'card.style.left = this.from;this.childXY.push({left:this.left,top:this.top,index:this.baseIndex});card.style.top = this.top;';
+				addFn += 'card.style.left = this.from;this.childXY.push({left:this.from,top:this.top,index:this.baseIndex});card.style.top = this.top;';
 				break;
 			case 'right':
 				res.from = null;
@@ -58,10 +58,11 @@
 		switch(to){
 			case 'left':
 				res.baseIndex = 100;
-				addFn += 'card.style.zIndex = this.baseIndex;this.from -= '+expand+';this.left -= '+expand+';this.baseIndex--;';
+				addFn += 'card.style.zIndex = this.baseIndex;this.from -= '+(from == to?expand+';this.left -= '+expand:expand)+';this.baseIndex--;';
+				if(from == 'right'){addFn += 'if(this.from <= this.left)this.left = this.from;';}
 				break;
 			case 'right':
-				addFn += 'card.style.zIndex = this.baseIndex;this.from += '+expand+';this.left += '+expand+';this.baseIndex++;';
+				addFn += 'card.style.zIndex = this.baseIndex;this.from += '+(from == to?expand+';this.right += '+expand:expand)+';this.baseIndex++;';
 				break;
 		}
 		res.add = new Function(addFn);
