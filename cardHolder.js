@@ -35,7 +35,7 @@
 	}
 	this.create = function(top,left,width,height,from,to,expand,arrange)
 	{
-		var res = {},addFn = 'var card = arguments[0];card.top = this.top;card.left = this.left;this.child.push(card);',
+		var res = {},addFn = 'var card = arguments[0];this.child.push(card);',
 		subtractFn = '';
 		res.size = 0;
 		res.baseIndex = 0;
@@ -47,18 +47,23 @@
 		res.childXY = [];
 		switch(from){
 			case 'left':
-				addFn += 'card.style.left = this.left;this.childXY.push({left:this.left,top:this.top});card.style.top = this.top;'
+				res.from = res.left;
+				addFn += 'card.style.left = this.from;this.childXY.push({left:this.from,top:this.top,index:this.baseIndex});card.style.top = this.top;';
+				break;
+			case 'right':
+				res.from = null;
+				addFn += 'this.from = this.from?this.from:(this.right - parseInt(card.style.width));card.style.left = this.from;this.childXY.push({left:this.from,top:this.top,index:this.baseIndex});card.style.top = this.top;';
 				break;
 		}
 		switch(to){
 			case 'left':
 				res.baseIndex = 100;
-				res.toLimit = res.left;
-				addFn += 'card.style.zIndex = this.baseIndex;this.left -= '+expand+';this.baseIndex--;';
+				addFn += 'card.style.zIndex = this.baseIndex;this.from -= '+(from == to?expand+';this.left -= '+expand:expand)+';this.baseIndex--;';
+				if(from == 'right'){addFn += 'if(this.from <= this.left)this.left = this.from;';}
 				break;
 			case 'right':
-				res.toLimit = res.right;
-				addFn += 'card.style.zIndex = this.baseIndex;this.left += '+expand+';this.baseIndex++;';
+				addFn += 'card.style.zIndex = this.baseIndex;this.from += '+(from == to?expand+';this.right += '+expand:expand)+';this.baseIndex++;';
+				break;
 		}
 		res.add = new Function(addFn);
 		child.push(res);
