@@ -45,37 +45,25 @@
 		res.right = width + left;
 		res.child = [];
 		res.childXY = [];
-		switch(from.vertical){
+		switch(from){
 			case 'left':
 				res.from = res.left;
-				addFn += 'card.style.left = this.fromX;';
+				addFn += 'card.style.left = this.from;this.childXY.push({left:this.from,top:this.top,index:this.baseIndex});card.style.top = this.top;';
 				break;
 			case 'right':
 				res.from = null;
-				addFn += 'this.fromX = this.fromX?this.fromX:(this.right - parseInt(card.style.width));card.style.left = this.fromX;';
+				addFn += 'this.from = this.from?this.from:(this.right - parseInt(card.style.width));card.style.left = this.from;this.childXY.push({left:this.from,top:this.top,index:this.baseIndex});card.style.top = this.top;';
 				break;
 		}
-		switch(from.horizontal){
-			case 'top':
-				res.fromY = res.top;
-				addFn += 'card.style.top = this.fromY;';
-				break;
-			case 'bottom':
-				addFn += 'this.fromY = this.down - parseInt(card.style.height);card.style.top = this.fromY;';
-				break;
-		}
-		addFn += 'this.childXY.push({left:this.fromX,top:this.fromY,index:this.baseIndex});'
 		switch(to){
 			case 'left':
 				res.baseIndex = 100;
-				addFn += 'card.style.zIndex = this.baseIndex;this.fromX -= '+(from.vertical == to?expand+';this.left -= '+expand:expand)+';this.baseIndex--;';
-				if(from == 'right'){addFn += 'if(this.fromX <= this.left)this.left = this.fromX;';}
+				addFn += 'card.style.zIndex = this.baseIndex;this.from -= '+(from == to?expand+';this.left -= '+expand:expand)+';this.baseIndex--;';
+				if(from == 'right'){addFn += 'if(this.from <= this.left)this.left = this.from;';}
 				break;
 			case 'right':
-				addFn += 'card.style.zIndex = this.baseIndex;this.fromX += '+(from.vertical == to?expand+';this.right += '+expand:expand)+';this.baseIndex++;';
+				addFn += 'card.style.zIndex = this.baseIndex;this.from += '+(from == to?expand+';this.right += '+expand:expand)+';this.baseIndex++;';
 				break;
-		}
-		switch(to){
 		}
 		res.add = new Function(addFn);
 		child.push(res);
