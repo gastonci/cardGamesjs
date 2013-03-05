@@ -47,12 +47,17 @@
 		res.childXY = [];
 		switch(from.vertical){
 			case 'left':
-				res.from = res.left;
+				res.fromX = res.left;
 				addFn += 'card.style.left = this.fromX;';
 				break;
 			case 'right':
-				res.from = null;
+				res.fromX = null;
 				addFn += 'this.fromX = this.fromX?this.fromX:(this.right - parseInt(card.style.width));card.style.left = this.fromX;';
+				break;
+			case 'center':
+				res.fromX = null;
+				res.fromXbuff = width / 2 + left;
+				addFn += 'if(!this.fromX){this.fromX = this.fromXbuff - (parseInt(card.style.width) / 2);delete this.fromXbuff;}card.style.left = this.fromX;';
 				break;
 		}
 		switch(from.horizontal){
@@ -62,6 +67,11 @@
 				break;
 			case 'bottom':
 				addFn += 'this.fromY = this.down - parseInt(card.style.height);card.style.top = this.fromY;';
+				break;
+			case 'center':
+				res.fromY = null;
+				res.fromYbuff = height / 2 + top;
+				addFn += 'if(!this.fromY){this.fromY = this.fromYbuff - (parseInt(card.style.height) / 2);delete this.fromYbuff;}card.style.top = this.fromY;';
 				break;
 		}
 		addFn += 'this.childXY.push({left:this.fromX,top:this.fromY,index:this.baseIndex});'

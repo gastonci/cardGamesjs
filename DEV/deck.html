@@ -1,8 +1,8 @@
 <HTML>
 	<HEAD>
 		<TITLE>DECK.JS</TITLE>
-		<SCRIPT SRC="card.js" TYPE="text/javascript"></SCRIPT>
-		<SCRIPT SRC="deck.js" TYPE="text/javascript"></SCRIPT>
+		<SCRIPT SRC="../PROD/card.js" TYPE="text/javascript"></SCRIPT>
+		<SCRIPT SRC="../PROD/deck.js" TYPE="text/javascript"></SCRIPT>
 		<SCRIPT SRC="pile.js" TYPE="text/javascript"></SCRIPT>
 		<SCRIPT SRC="cardContainer.js" TYPE="text/javascript"></SCRIPT>
 		<SCRIPT SRC="cardHolder.js" TYPE="text/javascript"></SCRIPT>
@@ -14,7 +14,7 @@
 			pile.shuffle();
 			pile.sort();
 			var holder = new cardHolders();
-			holder.create(250,400,50,385,{vertical:'right',horizontal:'bottom'},'right',25);
+			holder.create(150,400,400,400,{vertical:'center',horizontal:'center'},'left',25);
 			InitDragDrop(holder);
 			function doIt()
 			{
@@ -24,6 +24,6 @@
 	</HEAD>
 	<BODY>
 		<input type="button" value="generate card" onclick="doIt()"/><br>
-		<div style="background-color:#6495ed; position:absolute; top:250px; left:400px; height:385px; width:50px;"/>
+		<div style="background-color:#6495ed; position:absolute; top:150px; left:400px; height:400px; width:400px;"/>
 	</BODY>
 </HTML>

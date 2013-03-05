@@ -25,7 +25,7 @@ var Deck = function()
 		quantity += x[1];
 		return quantity;
 	}
-	function check(x){
+	function check(x,y){
 		if(typeof x.valueOf == 'number'){
 			return setQuantity(x,y);
 		}
@@ -114,7 +114,7 @@ var Deck = function()
 		}
 		else if(typeof arg.valueOf == 'string')
 		{
-			type = arg;
+			this.type = arg;
 			if(arguments[1]){
 				check(arguments[1],this.quantity);
 				if(arguments[2]){check(arguments[2],this.quantity);}
