@@ -5,7 +5,7 @@
 		<SCRIPT SRC="../PROD/deck.js" TYPE="text/javascript"></SCRIPT>
 		<SCRIPT SRC="pile.js" TYPE="text/javascript"></SCRIPT>
 		<SCRIPT SRC="cardContainer.js" TYPE="text/javascript"></SCRIPT>
-		<SCRIPT SRC="cardHolder.js" TYPE="text/javascript"></SCRIPT>
+		<SCRIPT SRC="cardHolder_center.js" TYPE="text/javascript"></SCRIPT>
 		<SCRIPT TYPE="text/javascript">
 			var deck = new Deck(PLAYINGDECK);
 			var spanishDeck = new Deck(SPANISHDECK_testa);
@@ -14,16 +14,28 @@
 			pile.shuffle();
 			pile.sort();
 			var holder = new cardHolders();
-			holder.create(150,400,400,400,{vertical:'center',horizontal:'center'},'left',25);
 			InitDragDrop(holder);
-			function doIt()
-			{
+			function load(){
+				holder.create(document.getElementById('area1'));
+			}
+			function doIt(){
 				new cardContainer(pile.drawFromBottom(),50);
 			}
 		</SCRIPT>
 	</HEAD>
-	<BODY>
+	<BODY onload="load()">
+		<div style="position:absolute; top:0; left:0; width:200; height:200; z-index:0;" >
 		<input type="button" value="generate card" onclick="doIt()"/><br>
-		<div style="background-color:#6495ed; position:absolute; top:150px; left:400px; height:400px; width:400px;"/>
+		<!--<div style="background-color:#6495ed; position:absolute; top:150px; left:400px; height:400px; width:400px;">
+		</div>-->
+		<div style="position:absolute; top:0; left:0; width:1800; height:1800; z-index:-1;">
+		<svg version="1.1" height="1000">
+			<polygon points="200,200,400,200,300,400"
+			style="fill:lime;fill-rule:evenodd;">
+		</svg>
+		</div>
+		<div style="background-color:#6495ed; position:absolute; top:200px; left:200px; height:200px; width:200px; z-index:-2;">
+		</div>
+		<area id='area1' shape="poly" coords="200,200,400,200,300,400" alt="holder">
 	</BODY>
 </HTML>

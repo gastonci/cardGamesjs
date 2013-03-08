@@ -85,8 +85,6 @@
 				addFn += 'card.style.zIndex = this.baseIndex;this.fromX += '+(from.vertical == to?expand+';this.right += '+expand:expand)+';this.baseIndex++;';
 				break;
 		}
-		switch(to){
-		}
 		res.add = new Function(addFn);
 		child.push(res);
 		size++;
