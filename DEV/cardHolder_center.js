@@ -44,9 +44,9 @@ var cardHolders = function()
 		if(d && c) return 4;
 		return 0;
 	}
-	function verifyCircleCollition(top,left,right,down,area){
-		var axisX = left - (right / 2), axisY = top - (down / 2),X = axisX > area.x,Y = axisY > area.y,areaX = X?area.x + area.radius:area.x - area.radius,areaY = Y?area.y + area.radius:area.y - area.radius;
-		if(axisX > (X?area.x:areaX) && axisX < (X?areaX:area.x) && axisY > (Y?area.y:areaY) && axisY < (Y?areaY>area.y)){return true;}
+	function verifyCircleCollition(top,left,right,down,width,height,area){
+		var axisX = left + (width / 2), axisY = top + (height / 2),X = axisX > area.x,Y = axisY > area.y,areaX = X?area.x + area.radius:area.x - area.radius,areaY = Y?area.y + area.radius:area.y - area.radius;
+		if(axisX > (X?area.x:areaX) && axisX < (X?areaX:area.x) && axisY > (Y?area.y:areaY) && axisY < (Y?areaY:area.y)){return true;}
 		if(areaX > left && areaX < right && areaY > top && areaY < down){return true;}
 		return false;
 	}
@@ -59,7 +59,7 @@ var cardHolders = function()
 					res = verifyPolygonCollition(top,left,right,down,width,height,x);
 					break;
 				case 'circle':
-					res = verifyCircleCollition(top,left,right,down,x);
+					res = verifyCircleCollition(top,left,right,down,width,height,x);
 					break;
 				default:
 					res = verifyRectCollition(top,left,right,down,x);
@@ -78,7 +78,7 @@ var cardHolders = function()
 		if(index == size){
 			return false;
 		}
-		x.add(cardContainer);
+		x.add(cardContainer,height,width);
 		return x;
 	}
 	this.create = function(maparea)
@@ -88,19 +88,45 @@ var cardHolders = function()
 		res.baseIndex = 0;
 		res.child = [];
 		res.childXY = [];
-		res.shape = maparea.shape
+		res.shape = maparea.shape;
 		switch(res.shape){
 			case 'poly':
+				var buff,zumX = 0,zumY = 0;
 				res.coordX = [];
 				res.coordY = [];
 				res.length = 0;
 				while(z < y){
-					res.coordX.push(parseInt(x[z]));
+					buff = parseInt(x[z]);
+					res.coordX.push(buff);
+					zumX += buff;
 					z++;
-					res.coordY.push(parseInt(x[z]));
+					buff = parseInt(x[z]);
+					res.coordY.push(buff);
+					zumY += buff;
 					z++;
-					res.length++;
 				}
+				z /= 2;
+				res.centroidX = zumX / z;
+				res.centroidY = zumY / z;
+				res.centroiDisplacement = 0;
+				res.add = function(x,y,z){
+					console.log('prueba cocodrilo');
+					var buff,buffer;
+					res.child.push(x);
+					res.size++;
+					res.centroiDisplacement += z / 2;
+					buffer = res.centroidY - (y / 2);
+					x.style.top = buffer;
+					buff = res.size & 1?res.centroidX - res.centroiDisplacement:res.centroidX + res.centroiDisplacement;
+					x.style.left = buff;
+					res.childXY.push({top:buffer,left:buff});
+					/*while(buff < res.size){
+						buffer = buff & 1?res.centroidX + res.centroiDisplacement:res.centroidX - res.centroiDisplacement;
+						res.child[buff].left = buffer;
+						res.childXY[buff++].left = buffer;
+					}*/
+				}
+				res.length = z;
 				break;
 			case 'rect':
 				res.top = parseInt(x[1]);
@@ -128,10 +154,6 @@ var cardHolders = function()
 					z++;
 				}
 				break;
-		}
-		res.add = function(x){
-			//res.child.push(x);
-			console.log('prueba cocodrilo');
 		}
 		child.push(res);
 		size++;
