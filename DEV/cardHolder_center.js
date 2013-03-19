@@ -3,8 +3,7 @@ var cardHolders = function()
 {
 	var child = [];
 	var size = 0;
-	function verifyPoligonCollition(top,left,right,down,width,height,area)
-	{
+	function verifyPolygonCollition(top,left,right,down,width,height,area){
 		var i = 0, testx, testy, j = area.length - 1, x, y, z, xyz,a = b = c = d = e = false;
 		function verify(c){
 			if(((y>testy) != (z>testy)) && (testx < (xyz-x) * (testy-y) / (z-y) + x)){
@@ -37,13 +36,33 @@ var cardHolders = function()
 		if(a || b || c || d || e){return true;}
 		return false;
 	}
+	function verifyRectCollition(top,left,right,down,area){
+		var a = (down > area.top) && (down < area.down),b = (right > area.left) && (right < area.right),c = (left < area.right) && (left > area.left),d = (top > area.top) && (top < area.down);
+		if(a && b) return 1;
+		if(a && c) return 2;
+		if(d && b) return 3;
+		if(d && c) return 4;
+		return 0;
+	}
+	function verifyCircleCollition(top,left,right,down,area){
+		var axisX = left - (right / 2), axisY = top - (down / 2),X = axisX > area.x,Y = axisY > area.y,areaX = X?area.x + area.radius:area.x - area.radius,areaY = Y?area.y + area.radius:area.y - area.radius;
+		if(axisX > (X?area.x:areaX) && axisX < (X?areaX:area.x) && axisY > (Y?area.y:areaY) && axisY < (Y?areaY>area.y)){return true;}
+		if(areaX > left && areaX < right && areaY > top && areaY < down){return true;}
+		return false;
+	}
 	this.checkColliders = function(cardContainer,top,left,width,height){
 		var right = left + width,down = top + height,index = 0,res,x;
 		while(index < size){
 			x = child[index];
 			switch(x.shape){
 				case 'poly':
-					res = verifyPoligonCollition(top,left,right,down,width,height,x);
+					res = verifyPolygonCollition(top,left,right,down,width,height,x);
+					break;
+				case 'circle':
+					res = verifyCircleCollition(top,left,right,down,x);
+					break;
+				default:
+					res = verifyRectCollition(top,left,right,down,x);
 					break;
 			}
 			if(res) break;
