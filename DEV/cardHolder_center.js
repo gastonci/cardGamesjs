@@ -6,11 +6,17 @@ var cardHolders = function()
 	function verifyPoligonCollition(top,left,right,down,width,height,area)
 	{
 		var i = 0, testx, testy, j = area.length - 1, x, y, z, xyz,a = b = c = d = e = false;
-		function verify(x){
-			if ( ((y>testy) != (z>testy)) && (testx < (xyz-x) * (testy-y) / (z-y) + x) )
-				x = !x;
-			return x;
+		function verify(c){
+			if(((y>testy) != (z>testy)) && (testx < (xyz-x) * (testy-y) / (z-y) + x)){
+				c = !c;
+			}
+			return c;
 		}
+		/***************************************************************
+		* testx = width / 2 + left;									   *
+		* testy = height / 2 + top;									   *
+		* e = verify(e);//just in case... might remove it in the future*
+		***************************************************************/
 		while(i < area.length){
 			testx = left;
 			testy = top;
@@ -23,19 +29,11 @@ var cardHolders = function()
 			b = verify(b);
 			testy = down;
 			c = verify(c);
-			//console.log(c);
 			testx = left;
 			d = verify(d);
-			testx = width / 2 + left;
-			testy = height / 2 + top;
-			//e = verify(e);//just in case... might remove it in the future
-			//if((x > left) && (x < right) && (y > top) && (y < down)){return true;}
+			if((x > left) && (x < right) && (y > top) && (y < down)){return true;}
 			j = i++;
 		}
-		console.log('a = '+a);
-		console.log('b = '+b);
-		console.log('c = '+c);
-		console.log('d = '+d);
 		if(a || b || c || d || e){return true;}
 		return false;
 	}
