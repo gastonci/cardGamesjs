@@ -81,7 +81,7 @@ var cardHolders = function()
 		x.add(cardContainer,height,width);
 		return x;
 	}
-	this.create = function(maparea)
+	this.create = function(maparea,sort)
 	{
 		var res = {},x = maparea.coords.split(','),y = x.length,z = 0;
 		res.size = 0;
@@ -89,6 +89,31 @@ var cardHolders = function()
 		res.child = [];
 		res.childXY = [];
 		res.shape = maparea.shape;
+		switch(sort){
+			case 'name':
+				var sortEval = function compare(a,b){
+					if (a.root.card.name < b.root.card.name)
+						return -1;
+					if (a.root.card.name > b.root.card.name)
+						return 1;
+					return 0;
+				}
+				break;
+			default:
+				console.log('sort: '+sort);
+				break;
+		}
+		res.sort = function(){
+			var x = 0,y,z = res.cardLeft;
+			if(!sortEval){return;}
+			res.child.sort(sortEval);
+			while(x < res.size){
+				y = res.child[x];
+				y.style.left = z;
+				z += parseInt(y.style.width);
+				x++;
+			}
+		}
 		switch(res.shape){
 			case 'poly':
 				var buff,zumX = 0,zumY = 0;
@@ -108,23 +133,34 @@ var cardHolders = function()
 				z /= 2;
 				res.centroidX = zumX / z;
 				res.centroidY = zumY / z;
-				res.centroiDisplacement = 0;
+				res.olDisplacementLeft = null;
+				res.olDisplacementRight = 0;
 				res.add = function(x,y,z){
-					console.log('prueba cocodrilo');
 					var buff,buffer;
-					res.child.push(x);
 					res.size++;
-					res.centroiDisplacement += z / 2;
 					buffer = res.centroidY - (y / 2);
 					x.style.top = buffer;
-					buff = res.size & 1?res.centroidX - res.centroiDisplacement:res.centroidX + res.centroiDisplacement;
+					if(res.olDisplacementLeft != null){
+						if(res.size & 1){
+							buff = res.centroidX - res.olDisplacementLeft - z;
+							res.olDisplacementLeft += z;
+							res.cardLeft = buff;
+						}
+						else{
+							buff = res.centroidX + res.olDisplacementRight;
+							res.olDisplacementRight += z;
+						}
+					}
+					else{
+						res.olDisplacementLeft = z / 2;
+						res.olDisplacementRight = res.olDisplacementLeft;
+						buff = res.centroidX - res.olDisplacementLeft;
+						res.cardLeft = buff;
+					}
 					x.style.left = buff;
+					res.child.push(x);
 					res.childXY.push({top:buffer,left:buff});
-					/*while(buff < res.size){
-						buffer = buff & 1?res.centroidX + res.centroiDisplacement:res.centroidX - res.centroiDisplacement;
-						res.child[buff].left = buffer;
-						res.childXY[buff++].left = buffer;
-					}*/
+					res.sort();
 				}
 				res.length = z;
 				break;

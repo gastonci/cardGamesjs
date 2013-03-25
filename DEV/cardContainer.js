@@ -24,8 +24,9 @@ var cardContainer = function(card,width,height,left,top)
 	image.src = card.src;
 	div.appendChild(spacer);
 	div.appendChild(image);
+	div.root = this;
 	document.body.appendChild(div);
-	return div;
+	return this;
 }
 
 function InitDragDrop(_carHolder)
