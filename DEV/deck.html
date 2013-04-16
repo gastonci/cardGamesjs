@@ -5,7 +5,7 @@
 		<SCRIPT SRC="../PROD/deck.js" TYPE="text/javascript"></SCRIPT>
 		<SCRIPT SRC="pile.js" TYPE="text/javascript"></SCRIPT>
 		<SCRIPT SRC="cardContainer.js" TYPE="text/javascript"></SCRIPT>
-		<SCRIPT SRC="cardHolder_center.js" TYPE="text/javascript"></SCRIPT>
+		<SCRIPT SRC="cardHolder.js" TYPE="text/javascript"></SCRIPT>
 		<SCRIPT TYPE="text/javascript">
 			var deck = new Deck(PLAYINGDECK);
 			var spanishDeck = new Deck(SPANISHDECK_testa);
@@ -16,9 +16,14 @@
 			var holder = new cardHolders();
 			InitDragDrop(holder);
 			function load(){
-				holder.create(document.getElementById('area1'));
+				//holder.create(document.getElementById('area1'),'name');
+				holder.create(150,400,400,400,{vertical:'center',horizontal:'center'},'down',25,true)
 			}
+			var bool = false,booli = false;
 			function doIt(){
+				/*var a = new cardContainer(pile.drawFromBottom(),bool?80:50);
+				if(booli){bool = !bool;booli = false;}
+				else{booli = true;}*/
 				new cardContainer(pile.drawFromBottom(),50);
 			}
 		</SCRIPT>
@@ -26,17 +31,17 @@
 	<BODY onload="load()">
 		<div style="position:absolute; top:0; left:0; width:200; height:200; z-index:0;" >
 		<input type="button" value="generate card" onclick="doIt()"/><br>
-		<!--<div style="background-color:#6495ed; position:absolute; top:150px; left:400px; height:400px; width:400px;">
-		</div>-->
-		<div style="position:absolute; top:0; left:0; width:1800; height:1800; z-index:-1;">
+		<div style="background-color:#6495ed; position:absolute; top:150px; left:400px; height:400px; width:400px;">
+		</div>
+		<!--<div style="position:absolute; top:0; left:0; width:1800; height:1800; z-index:-1;">
 		<svg version="1.1" height="1000">
-			<polygon points="200,200,400,200,400,400,200,400"
+			<polygon points="200,200,400,90,300,226,400,400,600,226,600,400,200,400"
 			style="fill:lime;fill-rule:evenodd;">
 		</svg>
 		</div>
 		<div style="background-color:#6495ed; position:absolute; top:200px; left:200px; height:200px; width:200px; z-index:-2;">
 		</div>
-		<area id='area1' shape="poly" coords="200,200,400,200,400,400,200,400" alt="holder">
-		<!--<area id='area1' shape="poly" coords="200,200,400,90,300,226,400,400,600,226,600,400,200,400" alt="holder">-->
+		<!--<area id='area1' shape="poly" coords="200,200,400,200,400,400,200,400" alt="holder">--><!--
+		<area id='area1' shape="poly" coords="200,200,400,90,300,226,400,400,600,226,600,400,200,400" alt="holder">-->
 	</BODY>
 </HTML>

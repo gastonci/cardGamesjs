@@ -79,11 +79,22 @@
 			case 'left':
 				res.baseIndex = 100;
 				addFn += 'card.style.zIndex = this.baseIndex;this.fromX -= '+(from.vertical == to?expand+';this.left -= '+expand:expand)+';this.baseIndex--;';
-				if(from == 'right'){addFn += 'if(this.fromX <= this.left)this.left = this.fromX;';}
+				if(from.vertical != to){addFn += 'if(this.fromX <= this.left)this.left = this.fromX;';}
 				break;
 			case 'right':
-				addFn += 'card.style.zIndex = this.baseIndex;this.fromX += '+(from.vertical == to?expand+';this.right += '+expand:expand)+';this.baseIndex++;';
+				res.toBuff = 0;
+				addFn += 'card.style.zIndex = this.baseIndex;this.fromX += '+(from.vertical == to?expand+';this.right += '+expand:expand)+';this.baseIndex++;this.toBuff = parseInt(card.style.width) / 2 + this.fromX;';
+				if(from.vertical != to){addFn += 'if(this.toBuff >= this.right)this.right = this.toBuff;';}
 				break;
+			case 'up':
+				res.baseIndex = 100;
+				addFn += 'card.style.zIndex = this.baseIndex;this.fromY -= '+(from.horizontal == 'top'?expand+';this.top -= '+expand:expand)+';this.baseIndex--;';
+				if(from.horizontal != 'top')addFn += 'if(this.fromY <= this.top)this.top = this.fromY;';
+				break;
+			case 'down':
+				res.toBuff = 0;
+				addFn += 'card.style.zIndex = this.baseIndex;this.fromY += '+(from.horizontal == 'bottom'?expand+';this.down += '+expand:expand)+';this.toBuff = parseInt(card.style.height) / 2 + this.fromY;this.baseIndex++;';
+				if(from.horizontal != 'bottom')addFn += 'if(this.toBuff >= this.down)this.down = this.toBuff;';
 		}
 		res.add = new Function(addFn);
 		child.push(res);
